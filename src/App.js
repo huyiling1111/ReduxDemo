@@ -12,15 +12,48 @@ const data = [
 class App extends Component {
   constructor(props) {
     super(props)
-    this.state = store.getState();
+    this.state = store.getState();  //store 里的初始数据
+    this.storeChange = this.storeChange.bind(this)  //转变this指向
+    store.subscribe(this.storeChange) //订阅Redux的状态
+  }
+  storeChange() {
+    this.setState(store.getState())  //更改state为store里的newState
+    console.log(store.getState(), 1111)
+  }
+
+  changeInputValue = (e) => {
+
+    // console.log(e.target.value)
+    const action = {
+      type: 'changeInput',
+      value: e.target.value
+    }
+    store.dispatch(action)
+
+  }
+
+  btnAdd = () => {
+    console.log(store.getState(), 'jjj')
+    const action = {
+      type: 'addItem'
+    }
+    store.dispatch(action)
+
+  }
+  deleteItem = (index) => {
+    const action = {
+      type: 'deleteItem',
+      index
+    }
+    store.dispatch(action)
   }
   render() {
     return (
       <div style={{ margin: '10px' }}>
         <div>
 
-          <Input placeholder={this.state.inputValue} style={{ width: '250px', marginRight: '10px' }} />
-          <Button type="primary">增加</Button>
+          <Input placeholder={this.state.inputValue} style={{ width: '250px', marginRight: '10px' }} onChange={this.changeInputValue} />
+          <Button type="primary" onClick={this.btnAdd}>增加</Button>
         </div>
         <div style={{ margin: '10px', width: '300px' }}>
           <List
@@ -28,7 +61,7 @@ class App extends Component {
             //关键代码-----------start
             dataSource={this.state.list}
             //关键代码-----------end
-            renderItem={item => (<List.Item>{item}</List.Item>)}
+            renderItem={(item, index) => (<List.Item onClick={() => { this.deleteItem(index) }}>{item}</List.Item>)}
           />
         </div>
       </div>
