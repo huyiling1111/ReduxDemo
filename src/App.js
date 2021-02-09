@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import 'antd/dist/antd.css'
 import { Input, Button, List } from 'antd'
 import store from './store/index'
-
+import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM } from './store/actionTypes'
+import { changeInputAction, addItemAction, deleteItemAction } from './store/actionCreators'
 const data = [
   '早8点开晨会，分配今天的开发工作',
   '早9点和项目经理作开发需求讨论会',
@@ -24,27 +25,19 @@ class App extends Component {
   changeInputValue = (e) => {
 
     // console.log(e.target.value)
-    const action = {
-      type: 'changeInput',
-      value: e.target.value
-    }
+    const action = changeInputAction(e.target.value)
     store.dispatch(action)
 
   }
 
   btnAdd = () => {
     console.log(store.getState(), 'jjj')
-    const action = {
-      type: 'addItem'
-    }
+    const action = addItemAction()
     store.dispatch(action)
 
   }
   deleteItem = (index) => {
-    const action = {
-      type: 'deleteItem',
-      index
-    }
+    const action = deleteItemAction(index)
     store.dispatch(action)
   }
   render() {
