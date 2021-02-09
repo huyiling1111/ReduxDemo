@@ -20,7 +20,7 @@ export default (state = defaultState, action) => {  //就是一个方法函数
     }
     if (action.type === DELETE_ITEM) { //根据type值，编写业务逻辑
         let newState = JSON.parse(JSON.stringify(state))
-        newState.list.splice(action.index)
+        newState.list.splice(action.index, 1)
         return newState
     }
     return state

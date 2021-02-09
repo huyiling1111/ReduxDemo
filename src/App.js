@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import 'antd/dist/antd.css'
-import { Input, Button, List } from 'antd'
 import store from './store/index'
+import AppUI from './AppUI'
 import { CHANGE_INPUT, ADD_ITEM, DELETE_ITEM } from './store/actionTypes'
 import { changeInputAction, addItemAction, deleteItemAction } from './store/actionCreators'
 const data = [
@@ -37,27 +36,18 @@ class App extends Component {
 
   }
   deleteItem = (index) => {
+    console.log(this.state.list)
     const action = deleteItemAction(index)
     store.dispatch(action)
   }
   render() {
     return (
-      <div style={{ margin: '10px' }}>
-        <div>
-
-          <Input placeholder={this.state.inputValue} style={{ width: '250px', marginRight: '10px' }} onChange={this.changeInputValue} />
-          <Button type="primary" onClick={this.btnAdd}>增加</Button>
-        </div>
-        <div style={{ margin: '10px', width: '300px' }}>
-          <List
-            bordered
-            //关键代码-----------start
-            dataSource={this.state.list}
-            //关键代码-----------end
-            renderItem={(item, index) => (<List.Item onClick={() => { this.deleteItem(index) }}>{item}</List.Item>)}
-          />
-        </div>
-      </div>
+      <AppUI
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        changeInputValue={this.changeInputValue}
+        btnAdd={this.btnAdd}
+        deleteItem={this.deleteItem} />
     );
   }
 }
