@@ -36,6 +36,7 @@ class App extends Component {
 
   }
   deleteItem = (index) => {
+    console.log('index', index)
     console.log(this.state.list)
     const action = deleteItemAction(index)
     store.dispatch(action)
